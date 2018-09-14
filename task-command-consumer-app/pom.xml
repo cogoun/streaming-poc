@@ -10,14 +10,31 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>task-command-consumer-app</artifactId>
+
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.cogoun.projects.streaming</groupId>
             <artifactId>streaming-domain</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.cogoun.projects.streaming</groupId>
+            <artifactId>streaming-topics</artifactId>
+            <version>${project.parent.version}</version>
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

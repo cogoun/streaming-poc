@@ -10,6 +10,8 @@
     <version>0.0.1-SNAPSHOT</version>
     <modules>
         <module>streaming-domain</module>
+        <module>streaming-topics</module>
+        <module>streaming-integration-testing-tool</module>
         <module>task-ui-app</module>
         <module>notification-ui-app</module>
         <module>task-service-app</module>
@@ -20,6 +22,7 @@
         <module>task-command-consumer-app</module>
         <module>notification-command-consumer-app</module>
         <module>collaboration-ui-app</module>
+        <module>collaboration-service-app</module>
     </modules>
     <name>poc</name>
 

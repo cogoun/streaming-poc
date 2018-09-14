@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 services:
 
@@ -28,7 +28,7 @@ services:
         KAFKA_ADVERTISED_HOST_NAME: kafka
         KAFKA_ADVERTISED_PORT: 9092
         KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-        KAFKA_CREATE_TOPICS: "notificationCommandTopic:1:1,notificationEventTopic:1:1,taskCommandTopic:1:1,taskEventTopic:1:1,collaborationTopic"
+        KAFKA_CREATE_TOPICS: "notificationCommandTopic:1:1,notificationEventTopic:1:1,taskCommandTopic:1:1,taskEventTopic:1:1,collaborationEventTopic:1:1"
         KAFKA_DELETE_TOPIC_ENABLE: "true"
         KAFKA_BROKER_ID: 100
       volumes:
@@ -46,6 +46,7 @@ services:
         - "collaboration-transformer-app_logs:/opt/applications/logs"
       depends_on:
         - kafka
+        - redis
 
   collaboration-ui-app:
       build:
@@ -56,8 +57,7 @@ services:
       volumes:
         - "collaboration-ui-app_logs:/opt/applications/logs"
       depends_on:
-        - redis
-        - kafka
+        - collaboration-service-app
 
   notification-command-consumer-app:
       build:
@@ -149,28 +149,41 @@ services:
       depends_on:
         - task-service-app
 
+  collaboration-service-app:
+      build:
+        context: .
+        dockerfile: collaboration-service-app/app.dockerfile
+      ports:
+        - "8092:8080"
+      volumes:
+        - "collaboration-service-app_logs:/opt/applications/logs"
+      depends_on:
+        - kafka
+
 volumes:
     redis_data:
       driver: local
     kafka_data:
       driver: local
-    collaboration-ui-app:
+    collaboration-ui-app_logs:
       driver: local
-    collaboration-transformer-app:
+    collaboration-transformer-app_logs:
       driver: local
-    task-ui-app:
+    collaboration-service-app_logs:
       driver: local
-    task-command-consumer-app:
+    task-ui-app_logs:
       driver: local
-    task-indexer-app:
+    task-command-consumer-app_logs:
       driver: local
-    task-service-app:
+    task-indexer-app_logs:
       driver: local
-    notification-ui-app:
+    task-service-app_logs:
       driver: local
-    notification-command-consumer-app:
+    notification-ui-app_logs:
       driver: local
-    notification-indexer-app:
+    notification-command-consumer-app_logs:
       driver: local
-    notification-service-app:
+    notification-indexer-app_logs:
+      driver: local
+    notification-service-app_logs:
       driver: local

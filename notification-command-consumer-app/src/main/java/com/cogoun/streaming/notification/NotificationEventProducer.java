@@ -1,13 +1,12 @@
 package com.cogoun.streaming.notification;
 
 import com.cogoun.streaming.command.NotificationCommand;
-import com.cogoun.streaming.domain.Collaboration;
 import com.cogoun.streaming.event.NotificationEvent;
+import com.cogoun.streaming.topics.Topics;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +17,10 @@ public class NotificationEventProducer {
 
     private static Logger LOGGER = LoggerFactory.getLogger(NotificationEventProducer.class);
 
+    public static final String PRODUCING_TOPIC = Topics.NOTIFICATION_EVENT_TOPIC;
+
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
-
-    @Value("${kafka.topic}")
-    private String topic;
 
     public void produceNotificationEventFromCommand(NotificationCommand notificationCommand) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -31,8 +29,8 @@ public class NotificationEventProducer {
         NotificationEvent notificationEvent = NotificationEvent.Builder.from(notificationCommand);
         String messageJson;
         messageJson = objectMapper.writeValueAsString(notificationEvent);
-        LOGGER.info("message: " + messageJson + " is sent from topic: " + topic);
-        Future future = kafkaTemplate.send(topic, messageJson);
+        LOGGER.info("message: " + messageJson + " is sent to topic: " + PRODUCING_TOPIC);
+        Future future = kafkaTemplate.send(PRODUCING_TOPIC, messageJson);
         future.get();
     }
 

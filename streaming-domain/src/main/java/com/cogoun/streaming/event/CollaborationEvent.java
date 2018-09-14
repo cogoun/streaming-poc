@@ -2,62 +2,115 @@ package com.cogoun.streaming.event;
 
 import com.cogoun.streaming.domain.Collaboration;
 
-public class CollaborationEvent {
+import java.io.Serializable;
+import java.util.List;
+
+public class CollaborationEvent implements Serializable {
 
     private CollaborationEventType type;
     private long id;
-    private String subject;
+    private String title;
+    private String deadline;
+    private String substanceName;
+    private String processName;
+    private String caseNumber;
+    private List<String> participants;
+    private String collaborationStatus;
+    private boolean supportingDocuments;
 
     public CollaborationEventType getType() {
         return type;
     }
 
-    public CollaborationEvent setType(CollaborationEventType type) {
+    public void setType(CollaborationEventType type) {
         this.type = type;
-        return this;
     }
 
     public long getId() {
         return id;
     }
 
-    public CollaborationEvent setId(long id) {
+    public void setId(long id) {
         this.id = id;
-        return this;
     }
 
-    public String getSubject() {
-        return subject;
+    public String getTitle() {
+        return title;
     }
 
-    public CollaborationEvent setSubject(String subject) {
-        this.subject = subject;
-        return this;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    @Override
-    public String toString() {
-        return "CollaborationEvent{" +
-                "type=" + type +
-                ", id=" + id +
-                ", subject='" + subject + '\'' +
-                '}';
+    public String getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(String deadline) {
+        this.deadline = deadline;
+    }
+
+    public String getSubstanceName() {
+        return substanceName;
+    }
+
+    public void setSubstanceName(String substanceName) {
+        this.substanceName = substanceName;
+    }
+
+    public String getProcessName() {
+        return processName;
+    }
+
+    public void setProcessName(String processName) {
+        this.processName = processName;
+    }
+
+    public String getCaseNumber() {
+        return caseNumber;
+    }
+
+    public void setCaseNumber(String caseNumber) {
+        this.caseNumber = caseNumber;
+    }
+
+    public List<String> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(List<String> participants) {
+        this.participants = participants;
+    }
+
+    public String getCollaborationStatus() {
+        return collaborationStatus;
+    }
+
+    public void setCollaborationStatus(String collaborationStatus) {
+        this.collaborationStatus = collaborationStatus;
+    }
+
+    public boolean isSupportingDocuments() {
+        return supportingDocuments;
+    }
+
+    public void setSupportingDocuments(boolean supportingDocuments) {
+        this.supportingDocuments = supportingDocuments;
     }
 
     public static class Builder {
-        public static CollaborationEvent from(Collaboration collaboration, CollaborationEventType eventType) {
-            CollaborationEvent event = new CollaborationEvent();
-            event.setType(eventType);
-            event.setSubject(collaboration.getSubject());
-            event.setId(collaboration.getId());
-            return event;
-        }
-
-        public static Collaboration from(CollaborationEvent collaborationEvent) {
-            Collaboration collaboration = new Collaboration();
-            collaboration.setSubject(collaborationEvent.getSubject());
-            collaboration.setId(collaboration.getId());
-            return collaboration;
+        public static CollaborationEvent from(Collaboration collaboration) {
+            CollaborationEvent collaborationEvent = new CollaborationEvent();
+            collaborationEvent.setDeadline(collaboration.getDeadline());
+            collaborationEvent.setTitle(collaboration.getTitle());
+            collaborationEvent.setCaseNumber(collaboration.getCaseNumber());
+            collaborationEvent.setCollaborationStatus(collaboration.getCollaborationStatus());
+            collaborationEvent.setParticipants(collaboration.getParticipants());
+            collaborationEvent.setSubstanceName(collaboration.getSubstanceName());
+            collaborationEvent.setProcessName(collaboration.getProcessName());
+            collaborationEvent.setId(collaboration.getId());
+            collaborationEvent.setSupportingDocuments(collaboration.isSupportingDocuments());
+            return collaborationEvent;
         }
     }
 

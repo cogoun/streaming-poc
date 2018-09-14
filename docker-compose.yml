@@ -1,0 +1,176 @@
+version: '2'
+
+services:
+
+  redis:
+      image: "bitnami/redis:latest"
+      environment:
+        # ALLOW_EMPTY_PASSWORD is recommended only for development.
+        - ALLOW_EMPTY_PASSWORD=yes
+        - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+      labels:
+        kompose.service.type: nodeport
+      ports:
+        - "6379:6379"
+      volumes:
+        - "redis_data:/bitnami/redis"
+
+  zookeeper:
+      image: wurstmeister/zookeeper
+      ports:
+        - "2181:2181"
+
+  kafka:
+      image: "wurstmeister/kafka"
+      ports:
+        - "9092"
+      environment:
+        KAFKA_ADVERTISED_HOST_NAME: kafka
+        KAFKA_ADVERTISED_PORT: 9092
+        KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+        KAFKA_CREATE_TOPICS: "notificationCommandTopic:1:1,notificationEventTopic:1:1,taskCommandTopic:1:1,taskEventTopic:1:1,collaborationTopic"
+        KAFKA_DELETE_TOPIC_ENABLE: "true"
+        KAFKA_BROKER_ID: 100
+      volumes:
+        - "kafka_data:/var/run/docker.sock"
+      depends_on:
+        - zookeeper
+
+  collaboration-transformer-app:
+      build:
+        context: .
+        dockerfile: collaboration-transformer-app/app.dockerfile
+      ports:
+        - "8081:8080"
+      volumes:
+        - "collaboration-transformer-app_logs:/opt/applications/logs"
+      depends_on:
+        - kafka
+
+  collaboration-ui-app:
+      build:
+        context: .
+        dockerfile: collaboration-ui-app/app.dockerfile
+      ports:
+        - "8083:8080"
+      volumes:
+        - "collaboration-ui-app_logs:/opt/applications/logs"
+      depends_on:
+        - redis
+        - kafka
+
+  notification-command-consumer-app:
+      build:
+        context: .
+        dockerfile: notification-command-consumer-app/app.dockerfile
+      ports:
+        - "8084:8080"
+      volumes:
+        - "notification-command-consumer-app_logs:/opt/applications/logs"
+      depends_on:
+        - kafka
+
+  notification-indexer-app:
+      build:
+        context: .
+        dockerfile: notification-indexer-app/app.dockerfile
+      ports:
+        - "8085:8080"
+      volumes:
+        - "notification-indexer-app_logs:/opt/applications/logs"
+      depends_on:
+        - redis
+        - kafka
+
+  notification-service-app:
+      build:
+        context: .
+        dockerfile: notification-service-app/app.dockerfile
+      ports:
+        - "8086:8080"
+      volumes:
+        - "notification-service-app_logs:/opt/applications/logs"
+      depends_on:
+        - redis
+
+  notification-ui-app:
+      build:
+        context: .
+        dockerfile: notification-ui-app/app.dockerfile
+      ports:
+        - "8087:8080"
+      volumes:
+        - "notification-ui-app_logs:/opt/applications/logs"
+      depends_on:
+        - notification-service-app
+
+  task-command-consumer-app:
+      build:
+        context: .
+        dockerfile: task-command-consumer-app/app.dockerfile
+      ports:
+        - "8088:8080"
+      volumes:
+        - "task-command-consumer-app_logs:/opt/applications/logs"
+      depends_on:
+        - kafka
+
+  task-indexer-app:
+      build:
+        context: .
+        dockerfile: task-indexer-app/app.dockerfile
+      ports:
+        - "8089:8080"
+      volumes:
+        - "task-indexer-app_logs:/opt/applications/logs"
+      depends_on:
+        - redis
+        - kafka
+
+  task-service-app:
+      build:
+        context: .
+        dockerfile: task-service-app/app.dockerfile
+      ports:
+        - "8090:8080"
+      volumes:
+        - "task-service-app_logs:/opt/applications/logs"
+      depends_on:
+        - redis
+
+  task-ui-app:
+      build:
+        context: .
+        dockerfile: task-ui-app/app.dockerfile
+      ports:
+        - "8091:8080"
+      volumes:
+        - "task-ui-app_logs:/opt/applications/logs"
+      depends_on:
+        - task-service-app
+
+volumes:
+    redis_data:
+      driver: local
+    kafka_data:
+      driver: local
+    collaboration-ui-app:
+      driver: local
+    collaboration-transformer-app:
+      driver: local
+    task-ui-app:
+      driver: local
+    task-command-consumer-app:
+      driver: local
+    task-indexer-app:
+      driver: local
+    task-service-app:
+      driver: local
+    notification-ui-app:
+      driver: local
+    notification-command-consumer-app:
+      driver: local
+    notification-indexer-app:
+      driver: local
+    notification-service-app:
+      driver: local

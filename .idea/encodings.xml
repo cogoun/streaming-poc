@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/collaboration-transformer-app" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/collaboration-ui-app" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/notification-command-consumer-app" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/notification-indexer-app" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/notification-service-app" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/notification-ui-app" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/streaming-domain" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/task-command-consumer-app" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/task-indexer-app" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/task-service-app" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/task-ui-app" charset="UTF-8" />
+  </component>
+</project>

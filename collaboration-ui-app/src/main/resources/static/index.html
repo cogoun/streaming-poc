@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Collaborations</title>
+
+    <!-- Import Bootstrap CSS from CDNs -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/bootstrap-table.min.css">
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Collaboration</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+<div class="container">
+
+    <form action="/collaboration" method="post">
+        <input type="hidden" name="id" value="0">
+        <p>
+            <label>Title</label><br>
+            <input type="text" name="title">
+        </p>
+        <p>
+            <label>Deadline</label><br>
+            <input type="text" name="deadline">
+        </p>
+        <p>
+            <label>Substance Name</label><br>
+            <input type="text" name="substanceName">
+        </p>
+        <p>
+            <label>Process Name</label><br>
+            <input type="text" name="processName">
+        </p>
+        <p>
+            <label>Case Number</label><br>
+            <input type="text" name="caseNumber">
+        </p>
+        <p>
+            <label>Participants</label><br>
+            <input type="text" name="participants">
+        </p>
+        <p>
+            <label>Collaboration Status</label><br>
+            <select name="collaborationStatus">
+                <option>STARTED</option>
+                <option>ONGOING</option>
+                <option>FINISHED</option>
+            </select>
+        </p>
+        <p>
+            <label>
+                Supporting Documents
+                <input type="checkbox" value="supportingDocuments">
+            </label>
+        </p>
+        <p>
+            <button>Sign up</button>
+            <button type="reset">Reset form</button>
+        </p>
+    </form>
+</div>
+
+
+<!-- Import Bootstrap, Bootstrap Table and JQuery JS from CDNs -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/bootstrap-table.min.js"></script>
+</body>
+</html>

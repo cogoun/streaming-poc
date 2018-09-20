@@ -21,6 +21,7 @@ public class NotificationController {
     @Autowired
     private NotificationRepository notificationRepository;
 
+    @CrossOrigin
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     @ResponseBody
     public List<Notification> notifications() {

@@ -36,6 +36,12 @@ public class TaskController {
                 .orElseThrow(() -> new TaskNotFoundException(taskId));
     }
 
+    @RequestMapping(value = "/count", method = RequestMethod.GET)
+    @ResponseBody
+    public long count() {
+        return taskRepository.count();
+    }
+
 
 
 

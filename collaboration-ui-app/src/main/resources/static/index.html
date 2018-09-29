@@ -10,6 +10,25 @@
     <!-- Import Bootstrap CSS from CDNs -->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/bootstrap-table.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $("#collaborationForm").submit(function(e) {
+            var form = $(this);
+            var url = form.attr('action');
+
+            $.ajax({
+                   type: "POST",
+                   url: url,
+                   data: form.serialize(), // serializes the form's elements.
+                   dataType: "json",
+                   success: function(data) {
+                        alert(data);
+                   }
+                 });
+
+            e.preventDefault(); // avoid to execute the actual submit of the form.
+        });
+    </script>
 </head>
 <body>
 <nav class="navbar navbar-inverse">
@@ -34,7 +53,7 @@
 </nav>
 <div class="container">
 
-    <form action="/collaboration" method="post">
+    <form id="collaborationForm" action="http://localhost:8092/collaboration" method="post">
         <input type="hidden" name="id" value="0">
         <p>
             <label>Title</label><br>
@@ -75,8 +94,7 @@
             </label>
         </p>
         <p>
-            <button>Sign up</button>
-            <button type="reset">Reset form</button>
+            <button type="submit">Submit</button>
         </p>
     </form>
 </div>

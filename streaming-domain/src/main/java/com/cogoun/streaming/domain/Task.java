@@ -1,23 +1,21 @@
 package com.cogoun.streaming.domain;
 
 import com.cogoun.streaming.event.TaskEvent;
-import org.springframework.data.redis.core.RedisHash;
 
 import java.io.Serializable;
 
-@RedisHash("Task")
 public class Task implements Serializable {
-    private long id;
+    private String id;
     private String title;
     private String taskType;
     private String userId;
 
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -54,5 +52,15 @@ public class Task implements Serializable {
             task.setUserId(taskEvent.getUserId());
             return task;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", taskType='" + taskType + '\'' +
+                ", userId='" + userId + '\'' +
+                '}';
     }
 }

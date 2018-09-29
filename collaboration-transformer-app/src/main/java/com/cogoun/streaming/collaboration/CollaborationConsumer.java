@@ -17,7 +17,7 @@ import java.util.stream.StreamSupport;
 public class CollaborationConsumer {
 
     public static final String CONSUMING_TOPIC = Topics.COLLABORATION_EVENT_TOPIC;
-    public static final String CONSUMERS_GROUP = "collaboration.consumers.group";
+    public static final String CONSUMERS_GROUP = "collaboration.consumer.group";
     private static Logger LOGGER = LoggerFactory.getLogger(CollaborationConsumer.class);
 
     private final CountDownLatch latch = new CountDownLatch(1);
@@ -33,12 +33,12 @@ public class CollaborationConsumer {
     public void consume(CollaborationEvent collaborationEvent) {
         this.latch.countDown();
         Collaboration collaboration = Collaboration.Builder.from(collaborationEvent);
-        Collaboration latest =  StreamSupport.stream(collaborationRepository.findAll().spliterator(), false)
-            .max(Comparator.comparing(Collaboration::getId))
+        CollaborationEntity latest =  StreamSupport.stream(collaborationRepository.findAll().spliterator(), false)
+            .max(Comparator.comparing(CollaborationEntity::getId))
             .orElse(emptyCollaboration());
         collaboration.setId(latest.getId()+1);
-        Collaboration savedCollaboration = collaborationRepository.save(collaboration);
-        LOGGER.info("Collaboration: [" + collaboration.toString() + "] was saved in the database");
+        CollaborationEntity savedCollaboration = collaborationRepository.save(CollaborationEntity.Builder.from(collaboration));
+        LOGGER.info("Collaboration: [" + savedCollaboration.toString() + "] was saved in the database");
 
         try {
             notificationCommandProducer.produceNotificationCommandFromCollaboration(collaboration);
@@ -48,8 +48,8 @@ public class CollaborationConsumer {
         }
     }
 
-    private Collaboration emptyCollaboration() {
-        Collaboration collaboration = new Collaboration();
+    private CollaborationEntity emptyCollaboration() {
+        CollaborationEntity collaboration = new CollaborationEntity();
         collaboration.setId(0);
         return collaboration;
     }

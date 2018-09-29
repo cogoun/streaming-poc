@@ -14,7 +14,7 @@ import java.util.concurrent.CountDownLatch;
 public class TaskCommandConsumer {
 
     public static final String CONSUMING_TOPIC = Topics.TASK_COMMAND_TOPIC;
-    private static final String CONSUMERS_GROUP = "notification.command.consumer.group";
+    private static final String CONSUMERS_GROUP = "task.command.consumer.group";
     private static Logger LOGGER = LoggerFactory.getLogger(TaskCommandConsumer.class);
 
     private final CountDownLatch latch = new CountDownLatch(1);

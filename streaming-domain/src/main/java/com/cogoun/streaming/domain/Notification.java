@@ -1,13 +1,12 @@
 package com.cogoun.streaming.domain;
 
 import com.cogoun.streaming.event.NotificationEvent;
-import org.springframework.data.redis.core.RedisHash;
 
 import java.io.Serializable;
 
-@RedisHash("Notification")
 public class Notification implements Serializable {
-    private long id;
+
+    private String id;
     private String userId;
     private String message;
 
@@ -15,11 +14,11 @@ public class Notification implements Serializable {
         return userId;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -45,5 +44,14 @@ public class Notification implements Serializable {
             notification.setUserId(notificationEvent.getUserId());
             return notification;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Notification{" +
+                "id='" + id + '\'' +
+                ", userId='" + userId + '\'' +
+                ", message='" + message + '\'' +
+                '}';
     }
 }

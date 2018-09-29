@@ -5,16 +5,16 @@ import com.cogoun.streaming.command.TaskCommand;
 import java.io.Serializable;
 
 public class TaskEvent implements Serializable {
-    private long id;
+    private String id;
     private String title;
     private String taskType;
     private String userId;
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -51,5 +51,15 @@ public class TaskEvent implements Serializable {
             event.setUserId(taskCommand.getUserId());
             return event;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "TaskEvent{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", taskType='" + taskType + '\'' +
+                ", userId='" + userId + '\'' +
+                '}';
     }
 }

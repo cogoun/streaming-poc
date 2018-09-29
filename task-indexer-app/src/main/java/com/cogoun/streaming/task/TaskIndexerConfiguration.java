@@ -5,26 +5,35 @@ import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.elasticsearch.client.Client;
+import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.*;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 
+import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
 public class TaskIndexerConfiguration {
 
-    @Value("${redis.hostname}")
-    private String redisHostName;
+    @Value("${elasticsearch.hostname}")
+    private String elasticsearchHostName;
 
-    @Value("${redis.port}")
-    private int redisPort;
+    @Value("${elasticsearch.port}")
+    private int elasticsearchPort;
+
+    @Value("${elasticsearch.clustername}")
+    private String elasticsearchClusterName;
 
     @Value("${kafka.hostname}")
     private String kafkaHostName;
@@ -33,19 +42,20 @@ public class TaskIndexerConfiguration {
     private int kafkaPort;
 
     @Bean
-    JedisConnectionFactory jedisConnectionFactory() {
-        JedisConnectionFactory jedisConFactory
-                = new JedisConnectionFactory();
-        jedisConFactory.setHostName(redisHostName);
-        jedisConFactory.setPort(redisPort);
-        return jedisConFactory;
+    public Client client() throws Exception {
+
+        Settings elasticsearchSettings = Settings.builder()
+                .put("cluster.name", elasticsearchClusterName)
+                .build();
+
+        TransportClient client = new PreBuiltTransportClient(elasticsearchSettings);
+        client.addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(elasticsearchHostName), elasticsearchPort));
+        return client;
     }
 
     @Bean
-    public RedisTemplate<String, Object> redisTemplate() {
-        RedisTemplate<String, Object> template = new RedisTemplate<>();
-        template.setConnectionFactory(jedisConnectionFactory());
-        return template;
+    public ElasticsearchOperations elasticsearchTemplate() throws Exception {
+        return new ElasticsearchTemplate(client());
     }
 
     @Bean

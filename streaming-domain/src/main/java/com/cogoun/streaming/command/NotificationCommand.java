@@ -7,15 +7,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class NotificationCommand {
-    private long id;
+    private String id;
     private String userId;
     private String message;
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -39,7 +39,7 @@ public class NotificationCommand {
 
         public static NotificationCommand from(Collaboration collaboration, String userId) {
             NotificationCommand command = new NotificationCommand();
-            command.setId(collaboration.getId());
+            command.setId(String.valueOf(collaboration.getId()));
             command.setUserId(userId);
             command.setMessage("The collaboration with title: " + collaboration.getTitle() + " has an updated status: " + collaboration.getCollaborationStatus());
             return command;

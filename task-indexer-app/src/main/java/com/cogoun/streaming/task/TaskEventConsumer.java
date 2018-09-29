@@ -6,6 +6,7 @@ import com.cogoun.streaming.topics.Topics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +24,7 @@ public class TaskEventConsumer {
     private final CountDownLatch latch = new CountDownLatch(1);
 
     @Autowired private TaskIndexingRepository taskIndexingRepository;
+    @Autowired private ElasticsearchOperations elasticsearchOperations;
 
     @KafkaListener(
             topics = CONSUMING_TOPIC,
@@ -37,15 +39,16 @@ public class TaskEventConsumer {
                     .max(Comparator.comparing(Task::getId))
                     .orElse(emptyTask());
             task.setId(latest.getId()+1);
+            elasticsearchOperations.createIndex(Task.class);
             taskIndexingRepository.save(task);
         } catch (Exception e) {
-            LOGGER.error("Problem indexing a Task event");
+            LOGGER.error("Problem indexing a Task event: " + e.getMessage());
         }
     }
 
     private Task emptyTask() {
         Task task = new Task();
-        task.setId(0);
+        task.setId("0");
         return task;
     }
 

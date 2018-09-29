@@ -6,16 +6,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class TaskCommand {
-    private long id;
+    private String id;
     private String title;
     private String taskType;
     private String userId;
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -47,7 +47,7 @@ public class TaskCommand {
         public static TaskCommand from(Collaboration collaboration, String userId) {
             TaskCommand command = new TaskCommand();
             command.setUserId(userId);
-            command.setId(collaboration.getId());
+            command.setId(String.valueOf(collaboration.getId()));
             command.setTaskType("Collaboration");
             command.setTitle(collaboration.getTitle());
             command.setUserId(userId);

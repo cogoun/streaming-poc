@@ -7,6 +7,7 @@ import com.cogoun.streaming.topics.Topics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +25,7 @@ public class NotificationEventConsumer {
     private final CountDownLatch latch = new CountDownLatch(1);
 
     @Autowired private NotificationIndexingRepository notificationIndexingRepository;
+    @Autowired private ElasticsearchOperations elasticsearchOperations;
 
     @KafkaListener(
             topics = CONSUMING_TOPIC,
@@ -33,6 +35,7 @@ public class NotificationEventConsumer {
         this.latch.countDown();
 
         try {
+            elasticsearchOperations.createIndex(Notification.class);
             Notification task = Notification.Builder.from(notificationEvent);
             Notification latest = StreamSupport.stream(notificationIndexingRepository.findAll().spliterator(), false)
                     .max(Comparator.comparing(Notification::getId))
@@ -40,13 +43,13 @@ public class NotificationEventConsumer {
             task.setId(latest.getId()+1);
             notificationIndexingRepository.save(task);
         } catch (Exception e) {
-            LOGGER.error("Problem indexing a Notification event");
+            LOGGER.error("Problem indexing a Notification event: " + e.getMessage());
         }
     }
 
     private Notification emptyNotification() {
         Notification notification = new Notification();
-        notification.setId(0);
+        notification.setId("0");
         return notification;
     }
 

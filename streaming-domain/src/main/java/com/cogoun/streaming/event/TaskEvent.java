@@ -52,4 +52,14 @@ public class TaskEvent implements Serializable {
             return event;
         }
     }
+
+    @Override
+    public String toString() {
+        return "TaskEvent{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", taskType='" + taskType + '\'' +
+                ", userId='" + userId + '\'' +
+                '}';
+    }
 }

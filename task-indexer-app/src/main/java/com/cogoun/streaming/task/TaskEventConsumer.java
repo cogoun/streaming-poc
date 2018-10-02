@@ -34,13 +34,11 @@ public class TaskEventConsumer {
         this.latch.countDown();
 
         try {
-            Task task = Task.Builder.from(taskEvent);
-            Task latest = StreamSupport.stream(taskIndexingRepository.findAll().spliterator(), false)
-                    .max(Comparator.comparing(Task::getId))
-                    .orElse(emptyTask());
-            task.setId(latest.getId()+1);
+            LOGGER.info("Task: [" + taskEvent.toString() + "] was consumed.");
             elasticsearchOperations.createIndex(Task.class);
+            Task task = Task.Builder.from(taskEvent);
             taskIndexingRepository.save(task);
+            LOGGER.info("Task: [" + task.toString() + "] was indexed.");
         } catch (Exception e) {
             LOGGER.error("Problem indexing a Task event: " + e.getMessage());
         }

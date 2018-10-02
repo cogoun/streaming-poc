@@ -48,4 +48,13 @@ public class Notification implements Serializable {
             return notification;
         }
     }
+
+    @Override
+    public String toString() {
+        return "Notification{" +
+                "id='" + id + '\'' +
+                ", userId='" + userId + '\'' +
+                ", message='" + message + '\'' +
+                '}';
+    }
 }

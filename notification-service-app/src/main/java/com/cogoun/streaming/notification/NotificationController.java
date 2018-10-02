@@ -36,7 +36,9 @@ public class NotificationController {
                 .orElseThrow(() -> new NotificationNotFoundException(notificationId));
     }
 
-
-
-
+    @RequestMapping(value = "/count", method = RequestMethod.GET)
+    @ResponseBody
+    public long count() {
+        return notificationRepository.count();
+    }
 }

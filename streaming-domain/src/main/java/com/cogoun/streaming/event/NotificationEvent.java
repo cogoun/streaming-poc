@@ -43,4 +43,13 @@ public class NotificationEvent implements Serializable {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    @Override
+    public String toString() {
+        return "NotificationEvent{" +
+                "id='" + id + '\'' +
+                ", userId='" + userId + '\'' +
+                ", message='" + message + '\'' +
+                '}';
+    }
 }

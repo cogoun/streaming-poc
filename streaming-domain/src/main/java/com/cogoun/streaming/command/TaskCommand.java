@@ -4,6 +4,7 @@ import com.cogoun.streaming.domain.Collaboration;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class TaskCommand {
     private String id;
@@ -44,10 +45,10 @@ public class TaskCommand {
     }
 
     public static class Builder {
-        public static TaskCommand from(Collaboration collaboration, String userId) {
+        public static TaskCommand from(Collaboration collaboration, String userId, int taskId) {
             TaskCommand command = new TaskCommand();
             command.setUserId(userId);
-            command.setId(String.valueOf(collaboration.getId()));
+            command.setId(String.valueOf(collaboration.getId() + taskId));
             command.setTaskType("Collaboration");
             command.setTitle(collaboration.getTitle());
             command.setUserId(userId);
@@ -55,8 +56,9 @@ public class TaskCommand {
         }
 
         public static List<TaskCommand> from(Collaboration collaboration) {
-            return collaboration.getParticipants().stream()
-                    .map(user -> from(collaboration, user))
+            return IntStream
+                    .range(0, collaboration.getParticipants().size())
+                    .mapToObj(i -> from(collaboration, collaboration.getParticipants().get(i), i))
                     .collect(Collectors.toList());
         }
     }

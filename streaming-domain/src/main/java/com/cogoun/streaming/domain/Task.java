@@ -57,4 +57,14 @@ public class Task implements Serializable {
             return task;
         }
     }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", taskType='" + taskType + '\'' +
+                ", userId='" + userId + '\'' +
+                '}';
+    }
 }

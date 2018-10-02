@@ -35,13 +35,11 @@ public class NotificationEventConsumer {
         this.latch.countDown();
 
         try {
+            LOGGER.info("Notification: [" + notificationEvent.toString() + "] was consumed.");
             elasticsearchOperations.createIndex(Notification.class);
-            Notification task = Notification.Builder.from(notificationEvent);
-            Notification latest = StreamSupport.stream(notificationIndexingRepository.findAll().spliterator(), false)
-                    .max(Comparator.comparing(Notification::getId))
-                    .orElse(emptyNotification());
-            task.setId(latest.getId()+1);
-            notificationIndexingRepository.save(task);
+            Notification notification = Notification.Builder.from(notificationEvent);
+            notificationIndexingRepository.save(notification);
+            LOGGER.info("Notification: [" + notification.toString() + "] was indexed.");
         } catch (Exception e) {
             LOGGER.error("Problem indexing a Notification event: " + e.getMessage());
         }

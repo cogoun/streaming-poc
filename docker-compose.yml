@@ -37,19 +37,25 @@ services:
       ports:
         - "2181:2181"
 
-#  grafana:
-#      image: grafana/grafana
-#      container_name: grafana
-#      restart: always
-#      ports:
-#        - "3000:3000"
-#      volumes:
-#        - grafana-volume
-#
-#  graphite:
-#      image: graphiteapp/graphite-statsd
-#      container_name: graphite
-#      restart: always
+  grafana:
+      image: grafana/grafana
+      container_name: grafana
+      restart: always
+      ports:
+        - "3000:3000"
+      volumes:
+        - grafana-volume
+
+  graphite:
+      image: graphiteapp/graphite-statsd
+      container_name: graphite
+      restart: always
+      ports:
+        - 80:80
+        - 2003-2004:2003-2004
+        - 2023-2024:2023-2024
+        - 8125:8125/udp
+        - 8126:8126
 
   kafka:
       image: "wurstmeister/kafka"

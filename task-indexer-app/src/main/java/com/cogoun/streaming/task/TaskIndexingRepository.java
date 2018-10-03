@@ -6,5 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TaskIndexingRepository extends ElasticsearchRepository<Task, String> {
+public interface TaskIndexingRepository extends ElasticsearchRepository<TaskEntity, String> {
 }

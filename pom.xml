@@ -10,6 +10,8 @@
     <version>0.0.1-SNAPSHOT</version>
     <modules>
         <module>streaming-domain</module>
+        <module>collaboration-entity</module>
+        <module>indexed-entity</module>
         <module>streaming-topics</module>
         <module>streaming-integration-testing-tool</module>
         <module>task-ui-app</module>
@@ -114,10 +116,6 @@
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
                     <version>${spring.boot.version}</version>
-                    <configuration>
-                        <source>1.8</source>
-                        <target>1.8</target>
-                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>

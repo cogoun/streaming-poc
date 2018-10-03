@@ -23,6 +23,11 @@
         </dependency>
         <dependency>
             <groupId>com.cogoun.projects.streaming</groupId>
+            <artifactId>collaboration-entity</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.cogoun.projects.streaming</groupId>
             <artifactId>streaming-topics</artifactId>
             <version>${project.parent.version}</version>
         </dependency>

@@ -5,5 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CollaborationRepository extends CrudRepository<Collaboration, String> {
+public interface CollaborationRepository extends CrudRepository<CollaborationEntity, String> {
 }

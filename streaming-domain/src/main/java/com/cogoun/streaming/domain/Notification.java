@@ -1,15 +1,12 @@
 package com.cogoun.streaming.domain;
 
 import com.cogoun.streaming.event.NotificationEvent;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.Document;
 
 import java.io.Serializable;
 
-@Document(indexName = "notification-index", type = "notification")
 public class Notification implements Serializable {
 
-    @Id private String id;
+    private String id;
     private String userId;
     private String message;
 

@@ -1,12 +1,10 @@
 package com.cogoun.streaming.domain;
 
 import com.cogoun.streaming.event.CollaborationEvent;
-import org.springframework.data.redis.core.RedisHash;
 
 import java.io.Serializable;
 import java.util.List;
 
-@RedisHash("Collaboration")
 public class Collaboration implements Serializable {
 
     private long id;

@@ -1,10 +1,16 @@
-package com.cogoun.streaming.domain;
+package com.cogoun.streaming.task;
 
+import com.cogoun.streaming.domain.Task;
 import com.cogoun.streaming.event.TaskEvent;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.redis.core.RedisHash;
+
 import java.io.Serializable;
 
-public class Task implements Serializable {
-    private String id;
+@Document(indexName = "task-index", type = "task")
+public class TaskEntity extends Task implements Serializable {
+    @Id private String id;
     private String title;
     private String taskType;
     private String userId;

@@ -1,7 +1,6 @@
 package com.cogoun.streaming.notification;
 
 import com.cogoun.streaming.domain.Notification;
-import com.cogoun.streaming.domain.Task;
 import com.cogoun.streaming.event.NotificationEvent;
 import com.cogoun.streaming.topics.Topics;
 import org.slf4j.Logger;
@@ -11,9 +10,7 @@ import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
-import java.util.Comparator;
 import java.util.concurrent.CountDownLatch;
-import java.util.stream.StreamSupport;
 
 @Component
 public class NotificationEventConsumer {
@@ -38,7 +35,7 @@ public class NotificationEventConsumer {
             LOGGER.info("Notification: [" + notificationEvent.toString() + "] was consumed.");
             elasticsearchOperations.createIndex(Notification.class);
             Notification notification = Notification.Builder.from(notificationEvent);
-            notificationIndexingRepository.save(notification);
+            notificationIndexingRepository.save((NotificationEntity) notification);
             LOGGER.info("Notification: [" + notification.toString() + "] was indexed.");
         } catch (Exception e) {
             LOGGER.error("Problem indexing a Notification event: " + e.getMessage());

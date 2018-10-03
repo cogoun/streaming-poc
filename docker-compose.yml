@@ -11,6 +11,11 @@ services:
         kompose.service.type: nodeport
       ports:
         - "6379:6379"
+      logging:
+        driver: "json-file"
+        options:
+          max-size: "10m"
+          max-file: "3"
       volumes:
         - "redis_data:/bitnami/redis"
 
@@ -25,6 +30,11 @@ services:
         memlock:
           soft: -1
           hard: -1
+      logging:
+        driver: "json-file"
+        options:
+          max-size: "10m"
+          max-file: "3"
       ports:
         - 9200:9200
         - 9300:9300
@@ -36,6 +46,11 @@ services:
       image: wurstmeister/zookeeper
       ports:
         - "2181:2181"
+      logging:
+        driver: "json-file"
+        options:
+          max-size: "10m"
+          max-file: "3"
 
   grafana:
       image: grafana/grafana
@@ -43,8 +58,11 @@ services:
       restart: always
       ports:
         - "3000:3000"
-      volumes:
-        - grafana-volume
+      logging:
+        driver: "json-file"
+        options:
+          max-size: "10m"
+          max-file: "3"
 
   graphite:
       image: graphiteapp/graphite-statsd
@@ -56,6 +74,11 @@ services:
         - 2023-2024:2023-2024
         - 8125:8125/udp
         - 8126:8126
+      logging:
+        driver: "json-file"
+        options:
+          max-size: "10m"
+          max-file: "3"
 
   kafka:
       image: "wurstmeister/kafka"
@@ -69,6 +92,11 @@ services:
         KAFKA_CREATE_TOPICS: "notificationCommandTopic:1:1,notificationEventTopic:1:1,taskCommandTopic:1:1,taskEventTopic:1:1,collaborationEventTopic:1:1"
         KAFKA_DELETE_TOPIC_ENABLE: "true"
         KAFKA_BROKER_ID: 100
+      logging:
+        driver: "json-file"
+        options:
+          max-size: "10m"
+          max-file: "3"
       volumes:
         - "kafka_data:/var/run/docker.sock"
       depends_on:
@@ -80,8 +108,11 @@ services:
         dockerfile: collaboration-transformer-app/app.dockerfile
       ports:
         - "8081:8080"
-      volumes:
-        - "collaboration-transformer-app_logs:/opt/applications/logs"
+      logging:
+        driver: "json-file"
+        options:
+          max-size: "10m"
+          max-file: "3"
       depends_on:
         - kafka
         - redis
@@ -92,8 +123,11 @@ services:
         dockerfile: collaboration-ui-app/app.dockerfile
       ports:
         - "8083:8080"
-      volumes:
-        - "collaboration-ui-app_logs:/opt/applications/logs"
+      logging:
+        driver: "json-file"
+        options:
+          max-size: "10m"
+          max-file: "3"
       depends_on:
         - collaboration-service-app
 
@@ -103,8 +137,11 @@ services:
         dockerfile: notification-command-consumer-app/app.dockerfile
       ports:
         - "8084:8080"
-      volumes:
-        - "notification-command-consumer-app_logs:/opt/applications/logs"
+      logging:
+        driver: "json-file"
+        options:
+          max-size: "10m"
+          max-file: "3"
       depends_on:
         - kafka
 
@@ -114,8 +151,11 @@ services:
         dockerfile: notification-indexer-app/app.dockerfile
       ports:
         - "8085:8080"
-      volumes:
-        - "notification-indexer-app_logs:/opt/applications/logs"
+      logging:
+        driver: "json-file"
+        options:
+          max-size: "10m"
+          max-file: "3"
       depends_on:
         - elasticsearch
         - kafka
@@ -126,8 +166,11 @@ services:
         dockerfile: notification-service-app/app.dockerfile
       ports:
         - "8086:8080"
-      volumes:
-        - "notification-service-app_logs:/opt/applications/logs"
+      logging:
+        driver: "json-file"
+        options:
+          max-size: "10m"
+          max-file: "3"
       depends_on:
         - elasticsearch
 
@@ -137,8 +180,11 @@ services:
         dockerfile: notification-ui-app/app.dockerfile
       ports:
         - "8087:8080"
-      volumes:
-        - "notification-ui-app_logs:/opt/applications/logs"
+      logging:
+        driver: "json-file"
+        options:
+          max-size: "10m"
+          max-file: "3"
       depends_on:
         - notification-service-app
 
@@ -148,8 +194,11 @@ services:
         dockerfile: task-command-consumer-app/app.dockerfile
       ports:
         - "8088:8080"
-      volumes:
-        - "task-command-consumer-app_logs:/opt/applications/logs"
+      logging:
+        driver: "json-file"
+        options:
+          max-size: "10m"
+          max-file: "3"
       depends_on:
         - kafka
 
@@ -159,8 +208,11 @@ services:
         dockerfile: task-indexer-app/app.dockerfile
       ports:
         - "8089:8080"
-      volumes:
-        - "task-indexer-app_logs:/opt/applications/logs"
+      logging:
+        driver: "json-file"
+        options:
+          max-size: "10m"
+          max-file: "3"
       depends_on:
         - elasticsearch
         - kafka
@@ -171,8 +223,11 @@ services:
         dockerfile: task-service-app/app.dockerfile
       ports:
         - "8090:8080"
-      volumes:
-        - "task-service-app_logs:/opt/applications/logs"
+      logging:
+        driver: "json-file"
+        options:
+          max-size: "10m"
+          max-file: "3"
       depends_on:
         - elasticsearch
 
@@ -182,8 +237,11 @@ services:
         dockerfile: task-ui-app/app.dockerfile
       ports:
         - "8091:8080"
-      volumes:
-        - "task-ui-app_logs:/opt/applications/logs"
+      logging:
+        driver: "json-file"
+        options:
+          max-size: "10m"
+          max-file: "3"
       depends_on:
         - task-service-app
 
@@ -193,8 +251,11 @@ services:
         dockerfile: collaboration-service-app/app.dockerfile
       ports:
         - "8092:8080"
-      volumes:
-        - "collaboration-service-app_logs:/opt/applications/logs"
+      logging:
+        driver: "json-file"
+        options:
+          max-size: "10m"
+          max-file: "3"
       depends_on:
         - kafka
 
@@ -204,28 +265,6 @@ volumes:
     esdata:
       driver: local
     kafka_data:
-      driver: local
-    collaboration-ui-app_logs:
-      driver: local
-    collaboration-transformer-app_logs:
-      driver: local
-    collaboration-service-app_logs:
-      driver: local
-    task-ui-app_logs:
-      driver: local
-    task-command-consumer-app_logs:
-      driver: local
-    task-indexer-app_logs:
-      driver: local
-    task-service-app_logs:
-      driver: local
-    notification-ui-app_logs:
-      driver: local
-    notification-command-consumer-app_logs:
-      driver: local
-    notification-indexer-app_logs:
-      driver: local
-    notification-service-app_logs:
       driver: local
     grafana-volume:
         driver: local

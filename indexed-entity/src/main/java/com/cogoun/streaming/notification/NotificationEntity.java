@@ -1,7 +1,6 @@
 package com.cogoun.streaming.notification;
 
 import com.cogoun.streaming.domain.Notification;
-import com.cogoun.streaming.event.NotificationEvent;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 

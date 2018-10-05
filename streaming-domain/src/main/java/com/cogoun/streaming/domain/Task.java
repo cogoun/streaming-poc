@@ -1,6 +1,7 @@
 package com.cogoun.streaming.domain;
 
 import com.cogoun.streaming.event.TaskEvent;
+
 import java.io.Serializable;
 
 public class Task implements Serializable {

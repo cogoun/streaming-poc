@@ -20,10 +20,10 @@ import java.util.Map;
 @Configuration
 public class CollaborationTransformerConfiguration {
 
-    @Value("${redis.hostname}")
+    @Value("${spring.redis.hostname}")
     private String redisHostName;
 
-    @Value("${redis.port}")
+    @Value("${spring.redis.port}")
     private int redisPort;
 
     @Value("${kafka.hostname}")

@@ -1,12 +1,10 @@
 package com.cogoun.streaming.tests;
 
 import com.cogoun.streaming.domain.Collaboration;
-import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class RandomCollaborationBuilder {

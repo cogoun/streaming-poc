@@ -1,4 +1,4 @@
-package com.cogoun.streaming.tests;
+package com.cogoun.streaming.tests.load;
 
 import com.cogoun.streaming.domain.Collaboration;
 import org.apache.commons.lang3.RandomStringUtils;

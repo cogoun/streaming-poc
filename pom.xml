@@ -22,7 +22,6 @@
         <module>collaboration-entity</module>
         <module>indexed-entity</module>
         <module>streaming-topics</module>
-        <module>streaming-integration-testing-tool</module>
         <module>task-ui-app</module>
         <module>notification-ui-app</module>
         <module>task-service-app</module>

@@ -1,4 +1,4 @@
-package com.cogoun.streaming.tests;
+package com.cogoun.streaming.tests.load;
 
 public interface LoadTest {
 

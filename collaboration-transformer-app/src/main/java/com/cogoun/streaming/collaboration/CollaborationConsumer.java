@@ -37,7 +37,7 @@ public class CollaborationConsumer {
             .max(Comparator.comparing(CollaborationEntity::getId))
             .orElse(emptyCollaboration());
         collaboration.setId(latest.getId()+1);
-        CollaborationEntity savedCollaboration = collaborationRepository.save((CollaborationEntity) collaboration);
+        CollaborationEntity savedCollaboration = collaborationRepository.save(CollaborationEntity.Builder.from(collaboration));
         LOGGER.info("Collaboration: [" + savedCollaboration.toString() + "] was saved in the database");
 
         try {

@@ -20,7 +20,7 @@ import java.util.Map;
 @Configuration
 public class CollaborationTransformerConfiguration {
 
-    @Value("${spring.redis.hostname}")
+    @Value("${spring.redis.host}")
     private String redisHostName;
 
     @Value("${spring.redis.port}")

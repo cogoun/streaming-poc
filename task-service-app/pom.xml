@@ -18,7 +18,7 @@
     <dependencies>
         <dependency>
             <groupId>com.cogoun.projects.streaming</groupId>
-            <artifactId>streaming-domain</artifactId>
+            <artifactId>indexed-entity</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

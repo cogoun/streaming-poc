@@ -1,0 +1,11 @@
+{
+  "id" : 1,
+  "title" : "This is the title of the collaboration",
+  "deadline" : "2020-12-30",
+  "substanceName" : "ethanol",
+  "processName" : "Dossier Evaluation",
+  "caseNumber" : "XX-298989908098-YY",
+  "participants" : ["u11111", "u22222", "u33333"],
+  "collaborationStatus" : "FINISHED",
+  "supportingDocuments" : true
+}

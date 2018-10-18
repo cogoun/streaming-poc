@@ -1,6 +1,8 @@
 package com.cogoun.streaming.notification;
 
 import com.cogoun.streaming.event.NotificationEvent;
+import io.micrometer.core.instrument.Clock;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -11,6 +13,7 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.actuate.autoconfigure.metrics.MeterRegistryCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
@@ -98,6 +101,11 @@ public class NotificationIndexerConfiguration {
                 = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         return factory;
+    }
+
+    @Bean
+    public MeterRegistryCustomizer<MeterRegistry> commonTags() {
+        return r -> r.config().commonTags("application", "notification-indexer-app");
     }
 
 }

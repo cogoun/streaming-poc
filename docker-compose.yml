@@ -63,6 +63,8 @@ services:
         options:
           max-size: "10m"
           max-file: "3"
+      depends_on:
+        - graphite
 
   graphite:
       image: graphiteapp/graphite-statsd
@@ -159,6 +161,7 @@ services:
       depends_on:
         - elasticsearch
         - kafka
+        - graphite
 
   notification-service-app:
       build:
@@ -173,6 +176,7 @@ services:
           max-file: "3"
       depends_on:
         - elasticsearch
+        - graphite
 
   notification-ui-app:
       build:
@@ -187,6 +191,7 @@ services:
           max-file: "3"
       depends_on:
         - notification-service-app
+        - graphite
 
   task-command-consumer-app:
       build:
@@ -201,6 +206,7 @@ services:
           max-file: "3"
       depends_on:
         - kafka
+        - graphite
 
   task-indexer-app:
       build:
@@ -216,6 +222,7 @@ services:
       depends_on:
         - elasticsearch
         - kafka
+        - graphite
 
   task-service-app:
       build:
@@ -230,6 +237,7 @@ services:
           max-file: "3"
       depends_on:
         - elasticsearch
+        - graphite
 
   task-ui-app:
       build:
@@ -244,6 +252,7 @@ services:
           max-file: "3"
       depends_on:
         - task-service-app
+        - graphite
 
   collaboration-service-app:
       build:
@@ -258,6 +267,7 @@ services:
           max-file: "3"
       depends_on:
         - kafka
+        - graphite
 
 volumes:
     redis_data:

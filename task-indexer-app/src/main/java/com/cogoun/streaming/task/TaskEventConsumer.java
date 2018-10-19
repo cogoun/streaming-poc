@@ -35,9 +35,9 @@ public class TaskEventConsumer {
 
         try {
             LOGGER.info("Task: [" + taskEvent.toString() + "] was consumed.");
-            elasticsearchOperations.createIndex(Task.class);
+            elasticsearchOperations.createIndex(TaskEntity.class);
             Task task = Task.Builder.from(taskEvent);
-            taskIndexingRepository.save((TaskEntity) task);
+            taskIndexingRepository.save(TaskEntity.Builder.from(task));
             LOGGER.info("Task: [" + task.toString() + "] was indexed.");
         } catch (Exception e) {
             LOGGER.error("Problem indexing a Task event: " + e.getMessage());

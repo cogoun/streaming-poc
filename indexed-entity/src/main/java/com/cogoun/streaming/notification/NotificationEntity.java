@@ -18,4 +18,14 @@ public class NotificationEntity extends Notification implements Serializable {
     public String toString() {
         return super.toString();
     }
+
+    public static class Builder {
+        public static NotificationEntity from(Notification notification) {
+            NotificationEntity notificationEntity = new NotificationEntity();
+            notificationEntity.setId(notification.getId());
+            notificationEntity.setMessage(notification.getMessage());
+            notificationEntity.setUserId(notification.getUserId());
+            return notificationEntity;
+        }
+    }
 }

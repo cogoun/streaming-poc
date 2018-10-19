@@ -17,4 +17,16 @@ public class TaskEntity extends Task implements Serializable {
     public String toString() {
         return super.toString();
     }
+
+    public static class Builder {
+
+        public static TaskEntity from(Task task) {
+            TaskEntity taskEntity = new TaskEntity();
+            taskEntity.setId(task.getId());
+            taskEntity.setTaskType(task.getTaskType());
+            taskEntity.setTitle(task.getTitle());
+            taskEntity.setUserId(task.getUserId());
+            return taskEntity;
+        }
+    }
 }

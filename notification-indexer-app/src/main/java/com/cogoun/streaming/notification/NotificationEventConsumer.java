@@ -33,9 +33,9 @@ public class NotificationEventConsumer {
 
         try {
             LOGGER.info("Notification: [" + notificationEvent.toString() + "] was consumed.");
-            elasticsearchOperations.createIndex(Notification.class);
+            elasticsearchOperations.createIndex(NotificationEntity.class);
             Notification notification = Notification.Builder.from(notificationEvent);
-            notificationIndexingRepository.save((NotificationEntity) notification);
+            notificationIndexingRepository.save(NotificationEntity.Builder.from(notification));
             LOGGER.info("Notification: [" + notification.toString() + "] was indexed.");
         } catch (Exception e) {
             LOGGER.error("Problem indexing a Notification event: " + e.getMessage());

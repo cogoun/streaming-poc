@@ -31,6 +31,9 @@ import java.util.Map;
 @EnableElasticsearchRepositories(basePackages = "com.cogoun.streaming.notification")
 public class NotificationIndexerConfiguration {
 
+    @Value("${application.name}")
+    private String applicationName;
+
     @Value("${elasticsearch.hostname}")
     private String elasticsearchHostName;
 
@@ -104,8 +107,8 @@ public class NotificationIndexerConfiguration {
     }
 
     @Bean
-    public MeterRegistryCustomizer<MeterRegistry> commonTags() {
-        return r -> r.config().commonTags("application", "notification-indexer-app");
+    public MeterRegistryCustomizer<MeterRegistry> meterRegistryCustomizer() {
+        return r -> r.config()
+                .commonTags("application", applicationName);
     }
-
 }

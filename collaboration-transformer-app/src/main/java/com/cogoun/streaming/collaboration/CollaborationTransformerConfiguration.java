@@ -1,11 +1,13 @@
 package com.cogoun.streaming.collaboration;
 
 import com.cogoun.streaming.event.CollaborationEvent;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.actuate.autoconfigure.metrics.MeterRegistryCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
@@ -19,6 +21,9 @@ import java.util.Map;
 
 @Configuration
 public class CollaborationTransformerConfiguration {
+
+    @Value("${application.name}")
+    private String applicationName;
 
     @Value("${spring.redis.host}")
     private String redisHostName;
@@ -85,6 +90,12 @@ public class CollaborationTransformerConfiguration {
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(jedisConnectionFactory());
         return template;
+    }
+
+    @Bean
+    public MeterRegistryCustomizer<MeterRegistry> meterRegistryCustomizer() {
+        return r -> r.config()
+                .commonTags("application", applicationName);
     }
 
 }

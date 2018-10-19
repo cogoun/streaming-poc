@@ -1,6 +1,7 @@
 package com.cogoun.streaming.task;
 
 import com.cogoun.streaming.event.TaskEvent;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -12,6 +13,7 @@ import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.actuate.autoconfigure.metrics.MeterRegistryCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
@@ -27,6 +29,9 @@ import java.util.Map;
 
 @Configuration
 public class TaskIndexerConfiguration {
+
+    @Value("${application.name}")
+    private String applicationName;
 
     @Value("${elasticsearch.hostname}")
     private String elasticsearchHostName;
@@ -98,6 +103,12 @@ public class TaskIndexerConfiguration {
                 = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         return factory;
+    }
+
+    @Bean
+    public MeterRegistryCustomizer<MeterRegistry> meterRegistryCustomizer() {
+        return r -> r.config()
+                .commonTags("application", applicationName);
     }
 
 }

@@ -17,6 +17,12 @@
       "version": "5.2.4"
     },
     {
+      "type": "panel",
+      "id": "graph",
+      "name": "Graph",
+      "version": "5.0.0"
+    },
+    {
       "type": "datasource",
       "id": "graphite",
       "name": "Graphite",
@@ -62,123 +68,8 @@
       "fontSize": "100%",
       "gridPos": {
         "h": 9,
-        "w": 12,
+        "w": 9,
         "x": 0,
-        "y": 0
-      },
-      "id": 6,
-      "links": [],
-      "pageSize": null,
-      "scroll": true,
-      "showHeader": true,
-      "sort": {
-        "col": null,
-        "desc": false
-      },
-      "styles": [
-        {
-          "alias": "Time",
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "pattern": "Time",
-          "type": "date"
-        },
-        {
-          "alias": "CPU Usage",
-          "colorMode": "cell",
-          "colors": [
-            "rgba(50, 172, 45, 0.97)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(245, 54, 54, 0.9)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "Current",
-          "thresholds": [
-            "80"
-          ],
-          "type": "number",
-          "unit": "percent"
-        },
-        {
-          "alias": "",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "decimals": 2,
-          "pattern": "/.*/",
-          "thresholds": [],
-          "type": "number",
-          "unit": "short"
-        }
-      ],
-      "targets": [
-        {
-          "refCount": 0,
-          "refId": "A",
-          "target": "systemCpuUsage.application.collaboration-service-app"
-        },
-        {
-          "refCount": 0,
-          "refId": "B",
-          "target": "systemCpuUsage.application.collaboration-transformer-app"
-        },
-        {
-          "refCount": 0,
-          "refId": "C",
-          "target": "systemCpuUsage.application.collaboration-ui-app"
-        },
-        {
-          "refCount": 0,
-          "refId": "D",
-          "target": "systemCpuUsage.application.notification-command-consumer-app"
-        },
-        {
-          "refCount": 0,
-          "refId": "E",
-          "target": "systemCpuUsage.application.notification-indexer-app"
-        },
-        {
-          "refCount": 0,
-          "refId": "F",
-          "target": "systemCpuUsage.application.notification-service-app"
-        },
-        {
-          "refCount": 0,
-          "refId": "G",
-          "target": "systemCpuUsage.application.notification-ui-app"
-        },
-        {
-          "refCount": 0,
-          "refId": "H",
-          "target": "systemCpuUsage.application.task-indexer-app"
-        },
-        {
-          "refCount": 0,
-          "refId": "I",
-          "target": "systemCpuUsage.application.task-service-app"
-        }
-      ],
-      "title": "CPU Usage",
-      "transform": "timeseries_aggregations",
-      "type": "table"
-    },
-    {
-      "columns": [
-        {
-          "text": "Current",
-          "value": "current"
-        }
-      ],
-      "datasource": "${DS_TEST}",
-      "fontSize": "100%",
-      "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 12,
         "y": 0
       },
       "id": 4,
@@ -298,6 +189,402 @@
       "title": "Overall Health",
       "transform": "timeseries_aggregations",
       "type": "table"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "${DS_TEST}",
+      "fill": 1,
+      "gridPos": {
+        "h": 9,
+        "w": 15,
+        "x": 9,
+        "y": 0
+      },
+      "id": 9,
+      "legend": {
+        "alignAsTable": false,
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "percentage": false,
+      "pointradius": 1,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "refId": "A",
+          "target": "aggregateWithWildcards(jvmMemoryUsed.application.*.*.*.*.*, 'sum', 2, 3, 4, 5, 6)"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": "2h",
+      "timeShift": null,
+      "title": "Total memory usage",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "decbytes",
+          "label": "Memory (Heap and Non-heap)",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "columns": [
+        {
+          "text": "Current",
+          "value": "current"
+        }
+      ],
+      "datasource": "${DS_TEST}",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 9,
+        "w": 9,
+        "x": 0,
+        "y": 9
+      },
+      "id": 6,
+      "links": [],
+      "pageSize": null,
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": null,
+        "desc": false
+      },
+      "styles": [
+        {
+          "alias": "Time",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "date"
+        },
+        {
+          "alias": "CPU Usage",
+          "colorMode": "cell",
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Current",
+          "thresholds": [
+            "80"
+          ],
+          "type": "number",
+          "unit": "percent"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "refCount": 0,
+          "refId": "A",
+          "target": "systemCpuUsage.application.collaboration-service-app"
+        },
+        {
+          "refCount": 0,
+          "refId": "B",
+          "target": "systemCpuUsage.application.collaboration-transformer-app"
+        },
+        {
+          "refCount": 0,
+          "refId": "C",
+          "target": "systemCpuUsage.application.collaboration-ui-app"
+        },
+        {
+          "refCount": 0,
+          "refId": "D",
+          "target": "systemCpuUsage.application.notification-command-consumer-app"
+        },
+        {
+          "refCount": 0,
+          "refId": "E",
+          "target": "systemCpuUsage.application.notification-indexer-app"
+        },
+        {
+          "refCount": 0,
+          "refId": "F",
+          "target": "systemCpuUsage.application.notification-service-app"
+        },
+        {
+          "refCount": 0,
+          "refId": "G",
+          "target": "systemCpuUsage.application.notification-ui-app"
+        },
+        {
+          "refCount": 0,
+          "refId": "H",
+          "target": "systemCpuUsage.application.task-indexer-app"
+        },
+        {
+          "refCount": 0,
+          "refId": "I",
+          "target": "systemCpuUsage.application.task-service-app"
+        }
+      ],
+      "title": "CPU Usage",
+      "transform": "timeseries_aggregations",
+      "type": "table"
+    },
+    {
+      "aliasColors": {},
+      "bars": true,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "${DS_TEST}",
+      "fill": 1,
+      "gridPos": {
+        "h": 11,
+        "w": 15,
+        "x": 9,
+        "y": 9
+      },
+      "id": 10,
+      "legend": {
+        "alignAsTable": false,
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": false,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "percentage": false,
+      "pointradius": 1,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "refId": "A",
+          "target": "aggregateWithWildcards(systemCpuUsage.application.*, 'average', 2)"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": "2h",
+      "timeShift": null,
+      "title": "Average CPU usage",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": "Average CPU usage",
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "columns": [
+        {
+          "text": "Current",
+          "value": "current"
+        }
+      ],
+      "datasource": "${DS_TEST}",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 9,
+        "w": 9,
+        "x": 0,
+        "y": 18
+      },
+      "id": 7,
+      "links": [],
+      "pageSize": null,
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": null,
+        "desc": false
+      },
+      "styles": [
+        {
+          "alias": "Time",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "date"
+        },
+        {
+          "alias": "Max CPU Usage",
+          "colorMode": "cell",
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Current",
+          "thresholds": [
+            "80"
+          ],
+          "type": "number",
+          "unit": "percent"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "refCount": 0,
+          "refId": "A",
+          "target": "aggregateLine(systemCpuUsage.application.collaboration-service-app, 'max', false)"
+        },
+        {
+          "refCount": 0,
+          "refId": "B",
+          "target": "aggregateLine(systemCpuUsage.application.collaboration-transformer-app, 'max', false)"
+        },
+        {
+          "refCount": 0,
+          "refId": "C",
+          "target": "aggregateLine(systemCpuUsage.application.collaboration-ui-app, 'max', false)"
+        },
+        {
+          "refCount": 0,
+          "refId": "D",
+          "target": "aggregateLine(systemCpuUsage.application.notification-command-consumer-app, 'max', false)"
+        },
+        {
+          "refCount": 0,
+          "refId": "E",
+          "target": "aggregateLine(systemCpuUsage.application.notification-indexer-app, 'max', false)"
+        },
+        {
+          "refCount": 0,
+          "refId": "F",
+          "target": "aggregateLine(systemCpuUsage.application.notification-service-app, 'max', false)"
+        },
+        {
+          "refCount": 0,
+          "refId": "G",
+          "target": "aggregateLine(systemCpuUsage.application.notification-ui-app, 'max', false)"
+        },
+        {
+          "refCount": 0,
+          "refId": "H",
+          "target": "aggregateLine(systemCpuUsage.application.task-indexer-app, 'max', false)"
+        },
+        {
+          "refCount": 0,
+          "refId": "I",
+          "target": "aggregateLine(systemCpuUsage.application.task-service-app, 'max', false)"
+        }
+      ],
+      "title": "Maximum CPU Usage",
+      "transform": "timeseries_aggregations",
+      "type": "table"
     }
   ],
   "refresh": false,
@@ -339,5 +626,5 @@
   "timezone": "",
   "title": "Test",
   "uid": "yJ-iNHbik",
-  "version": 3
+  "version": 8
 }

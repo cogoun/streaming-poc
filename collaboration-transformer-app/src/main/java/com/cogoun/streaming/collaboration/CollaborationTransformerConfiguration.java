@@ -68,7 +68,7 @@ public class CollaborationTransformerConfiguration {
     }
 
 
-    public ProducerFactory<String, String> producerFactory() {
+    public ProducerFactory<String, String>  producerFactory() {
         return new DefaultKafkaProducerFactory<>(producerConfigs());
     }
 

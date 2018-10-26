@@ -48,6 +48,9 @@ public class TaskIndexerConfiguration {
     @Value("${kafka.port}")
     private int kafkaPort;
 
+    @Value("${spring.kafka.properties.sasl.jaas.config}")
+    private String kafkaJaasConfig;
+
     @Bean
     public Client client() throws Exception {
 
@@ -90,6 +93,9 @@ public class TaskIndexerConfiguration {
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaHostName + ":" + kafkaPort);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        props.put("security.protocol", "SASL_PLAINTEXT");
+        props.put("sasl.mechanism", "PLAIN");
+        props.put("sasl.jaas.config", kafkaJaasConfig);
         return new DefaultKafkaConsumerFactory<>(
                 props,
                 new StringDeserializer(),

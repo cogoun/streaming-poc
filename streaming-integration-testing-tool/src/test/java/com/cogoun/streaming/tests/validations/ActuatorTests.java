@@ -10,6 +10,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class ActuatorTests {
@@ -33,15 +34,21 @@ public class ActuatorTests {
     @Test
     public void testHealthEndpoints() {
         RestTemplate restTemplate = new RestTemplate();
+        boolean healthy = true;
+        String inError = "\n";
         for (int i=0; i<actuatorUrls.length; i++) {
             ResponseEntity<String> response = null;
             try {
                 response = restTemplate.getForEntity(actuatorUrls[i], String.class);
                 String httpStatusName = response.getStatusCode().name();
-                assertEquals(actuatorUrls[i], HttpStatus.OK.name(), httpStatusName);
+                healthy =  healthy && HttpStatus.OK.name().equals(httpStatusName);
             } catch (RestClientException e) {
-                fail(e.getMessage());
+                LOG.error(actuatorUrls[i] + ", " + e.getMessage());
+                healthy = false;
+                inError += (actuatorUrls[i] + "\n");
             }
         }
+        LOG.info("In error: " + inError);
+        assertTrue(healthy);
     }
 }

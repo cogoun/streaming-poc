@@ -41,7 +41,7 @@ public class ActuatorTests {
             try {
                 response = restTemplate.getForEntity(actuatorUrls[i], String.class);
                 String httpStatusName = response.getStatusCode().name();
-                healthy =  healthy && HttpStatus.OK.name().equals(httpStatusName);
+                healthy =  healthy && HttpStatus.OK.name().equals(httpStatusName) && !response.getBody().contains("DOWN");
             } catch (RestClientException e) {
                 LOG.error(actuatorUrls[i] + ", " + e.getMessage());
                 healthy = false;

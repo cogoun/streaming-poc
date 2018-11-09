@@ -12,6 +12,8 @@ import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.metrics.MeterRegistryCustomizer;
 import org.springframework.context.annotation.Bean;
@@ -31,6 +33,8 @@ import java.util.Map;
 @EnableElasticsearchRepositories(basePackages = "com.cogoun.streaming.notification")
 public class NotificationIndexerConfiguration {
 
+    private static Logger LOGGER = LoggerFactory.getLogger(NotificationIndexerConfiguration.class);
+
     @Value("${application.name}")
     private String applicationName;
 
@@ -49,6 +53,9 @@ public class NotificationIndexerConfiguration {
     @Value("${kafka.port}")
     private int kafkaPort;
 
+    @Value("${spring.kafka.properties.sasl.jaas.config}")
+    private String kafkaJaasConfig;
+
     @Bean
     public Client client() throws Exception {
 
@@ -66,31 +73,15 @@ public class NotificationIndexerConfiguration {
         return new ElasticsearchTemplate(client());
     }
 
-    @Bean
-    public Map<String, Object> producerConfigs() {
-        Map<String, Object> props = new HashMap<>();
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaHostName + ":" + kafkaPort);
-        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        props.put(ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG, 1000);
-        return props;
-    }
-
-    @Bean
-    public ProducerFactory<String, String> producerFactory() {
-        return new DefaultKafkaProducerFactory<>(producerConfigs());
-    }
-
-    @Bean
-    public KafkaTemplate<String, String> kafkaTemplate() {
-        return new KafkaTemplate<>(producerFactory());
-    }
-
     public ConsumerFactory<String, NotificationEvent> consumerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaHostName + ":" + kafkaPort);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        props.put("security.protocol", "SASL_PLAINTEXT");
+        props.put("sasl.mechanism", "PLAIN");
+        props.put("sasl.jaas.config", kafkaJaasConfig);
+        LOGGER.info("Kafka Client JAAS config: " + kafkaJaasConfig);
         return new DefaultKafkaConsumerFactory<>(
                 props,
                 new StringDeserializer(),

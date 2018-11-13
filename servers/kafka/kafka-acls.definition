@@ -1,6 +1,6 @@
 collaborationTransformerApp producer notificationCommandTopic
 collaborationTransformerApp producer taskCommandTopic
-collaborationTransformerApp consumer collaborationEventTopic portal.collaboration.consumer.group
+collaborationTransformerApp consumer collaborationEventTopic collaboration.consumers.group
 collaborationToolApp producer collaborationEventTopic
 dynamicCaseConsumerApp consumer collaborationEventTopic dynamic.case.collaboration.consumer.group
 taskCommandConsumerApp consumer taskCommandTopic task.command.consumer.group

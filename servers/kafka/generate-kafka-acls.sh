@@ -5,6 +5,7 @@ outputFile=create-acls.sh
 authorizer="kafka.security.auth.SimpleAclAuthorizer"
 authorizerProperties="zookeeper.connect=zookeeper:2181"
 kafkaAclCommand="/opt/kafka/bin/kafka-acls.sh"
+cluster="kafka-cluster"
 
 rm "$outputFile"
 printf "#!/bin/bash\n\n" >> "$outputFile"
@@ -21,4 +22,5 @@ while IFS='' read -r line || [[ -n "$line" ]]; do
         consumerGroupOption=""
     fi
     printf "$kafkaAclCommand --authorizer $authorizer --authorizer-properties $authorizerProperties  --add --allow-principal User:$user --$action --topic $topic $consumerGroupOption\n" >> "$outputFile"
+    printf "$kafkaAclCommand --authorizer $authorizer --authorizer-properties $authorizerProperties  --add --allow-principal User:$user --create --cluster $cluster $topic $consumerGroupOption\n" >> "$outputFile"
 done < "$inputFile"

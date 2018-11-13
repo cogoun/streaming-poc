@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
+@EnableElasticsearchRepositories(basePackages = "com.cogoun.streaming.task")
 public class TaskIndexerConfiguration {
 
     private static Logger LOGGER = LoggerFactory.getLogger(TaskIndexerConfiguration.class);

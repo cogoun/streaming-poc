@@ -8,7 +8,7 @@ public class HighLoad {
 
     @Test
     public void testHighLoad() {
-        LoadTest highLoadTest = new EmulateHighLoad(1000, 200);
+        LoadTest highLoadTest = new EmulateHighLoad(100, 200);
         highLoadTest.test(ENDPOINT_URL);
     }
 }

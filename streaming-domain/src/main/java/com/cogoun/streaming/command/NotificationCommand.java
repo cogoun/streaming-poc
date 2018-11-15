@@ -39,7 +39,7 @@ public class NotificationCommand {
 
         private static NotificationCommand from(Collaboration collaboration, String userId, int notificationId) {
             NotificationCommand command = new NotificationCommand();
-            command.setId(String.valueOf(collaboration.getId() + notificationId));
+            command.setId(String.valueOf(collaboration.getId()) + "-" + String.valueOf(notificationId));
             command.setUserId(userId);
             command.setMessage("The collaboration with title: " + collaboration.getTitle() + " has an updated status: " + collaboration.getCollaborationStatus());
             return command;

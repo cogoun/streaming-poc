@@ -17,7 +17,7 @@ import java.util.stream.StreamSupport;
 public class CollaborationConsumer {
 
     public static final String CONSUMING_TOPIC = Topics.COLLABORATION_EVENT_TOPIC;
-    public static final String CONSUMERS_GROUP = "collaboration.consumers.group";
+    public static final String CONSUMERS_GROUP = "collaboration.consumer.group";
     private static Logger LOGGER = LoggerFactory.getLogger(CollaborationConsumer.class);
 
     private final CountDownLatch latch = new CountDownLatch(1);

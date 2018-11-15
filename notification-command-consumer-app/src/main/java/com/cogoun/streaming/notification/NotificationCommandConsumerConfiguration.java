@@ -6,6 +6,8 @@ import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.metrics.MeterRegistryCustomizer;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +23,8 @@ import java.util.Map;
 @Configuration
 public class NotificationCommandConsumerConfiguration {
 
+    private static Logger LOGGER = LoggerFactory.getLogger(NotificationCommandConsumerConfiguration.class);
+
     @Value("${application.name}")
     private String applicationName;
 
@@ -30,11 +34,18 @@ public class NotificationCommandConsumerConfiguration {
     @Value("${kafka.port}")
     private int kafkaPort;
 
+    @Value("${spring.kafka.properties.sasl.jaas.config}")
+    private String kafkaJaasConfig;
+
     public ConsumerFactory<String, NotificationCommand> consumerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaHostName + ":" + kafkaPort);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        props.put("security.protocol", "SASL_PLAINTEXT");
+        props.put("sasl.mechanism", "PLAIN");
+        props.put("sasl.jaas.config", kafkaJaasConfig);
+        LOGGER.info("Kafka Client JAAS config: " + kafkaJaasConfig);
         return new DefaultKafkaConsumerFactory<>(
                 props,
                 new StringDeserializer(),

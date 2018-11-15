@@ -22,5 +22,5 @@ while IFS='' read -r line || [[ -n "$line" ]]; do
         consumerGroupOption=""
     fi
     printf "$kafkaAclCommand --authorizer $authorizer --authorizer-properties $authorizerProperties  --add --allow-principal User:$user --$action --topic $topic $consumerGroupOption\n" >> "$outputFile"
-    printf "$kafkaAclCommand --authorizer $authorizer --authorizer-properties $authorizerProperties  --add --allow-principal User:$user --create --cluster $cluster $topic $consumerGroupOption\n" >> "$outputFile"
+    printf "$kafkaAclCommand --authorizer $authorizer --authorizer-properties $authorizerProperties  --add --allow-principal User:$user --operation create --cluster\n" >> "$outputFile"
 done < "$inputFile"

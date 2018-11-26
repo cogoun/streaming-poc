@@ -69,18 +69,19 @@ services:
           max-size: "10m"
           max-file: "3"
       depends_on:
-        - graphite
+        - influxdb
 
-  graphite:
-      image: graphiteapp/graphite-statsd
-      container_name: graphite
+  influxdb:
+      image: influxdb
+      container_name: influxdb
       restart: always
       ports:
-        - 80:80
-        - 2003-2004:2003-2004
-        - 2023-2024:2023-2024
-        - 8125:8125/udp
-        - 8126:8126
+        - 9086:8086
+        - 9083:8083
+      environment:
+        INFLUXDB_DB: metricsDB
+        INFLUXDB_USER: metricsUser
+        INFLUXDB_USER_PASSWORD: metricsPass
       logging:
         driver: "json-file"
         options:
@@ -176,7 +177,7 @@ services:
       depends_on:
         - elasticsearch
         - kafka
-        - graphite
+        - influxdb
 
   notification-service-app:
       build:
@@ -191,7 +192,7 @@ services:
           max-file: "3"
       depends_on:
         - elasticsearch
-        - graphite
+        - influxdb
 
   notification-ui-app:
       build:
@@ -206,7 +207,7 @@ services:
           max-file: "3"
       depends_on:
         - notification-service-app
-        - graphite
+        - influxdb
 
   task-command-consumer-app:
       build:
@@ -221,7 +222,7 @@ services:
           max-file: "3"
       depends_on:
         - kafka
-        - graphite
+        - influxdb
 
   task-indexer-app:
       build:
@@ -237,7 +238,7 @@ services:
       depends_on:
         - elasticsearch
         - kafka
-        - graphite
+        - influxdb
 
   task-service-app:
       build:
@@ -252,7 +253,7 @@ services:
           max-file: "3"
       depends_on:
         - elasticsearch
-        - graphite
+        - influxdb
 
   task-ui-app:
       build:
@@ -267,7 +268,7 @@ services:
           max-file: "3"
       depends_on:
         - task-service-app
-        - graphite
+        - influxdb
 
   collaboration-service-app:
       build:
@@ -282,7 +283,7 @@ services:
           max-file: "3"
       depends_on:
         - kafka
-        - graphite
+        - influxdb
 
 volumes:
     redis_data:

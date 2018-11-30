@@ -58,7 +58,9 @@ services:
           max-file: "3"
 
   grafana:
-      image: grafana/grafana
+      build:
+        context: .
+        dockerfile: servers/grafana/grafana.dockerfile
       container_name: grafana
       restart: always
       ports:
@@ -72,7 +74,7 @@ services:
         - influxdb
 
   influxdb:
-      image: influxdb
+      image: influxdb:latest
       container_name: influxdb
       restart: always
       ports:
@@ -87,6 +89,14 @@ services:
         options:
           max-size: "10m"
           max-file: "3"
+
+  telegraf:
+      build:
+        context: .
+        dockerfile: servers/telegraf/telegraf.dockerfile
+      container_name: telegraf
+      depends_on:
+        - influxdb
 
   kafka:
       build:
@@ -292,5 +302,5 @@ volumes:
       driver: local
     kafka_data:
       driver: local
-    grafana-volume:
+    grafana-storage:
         driver: local

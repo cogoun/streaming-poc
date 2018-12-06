@@ -5,6 +5,7 @@ services:
   redis:
       image: "bitnami/redis:latest"
       container_name: redis
+      restart: always
       environment:
         - ALLOW_EMPTY_PASSWORD=yes
       labels:
@@ -22,6 +23,7 @@ services:
   elasticsearch:
       image: docker.elastic.co/elasticsearch/elasticsearch:6.4.1
       container_name: elasticsearch
+      restart: always
       environment:
         - cluster.name=elasticsearch-cluster
         - bootstrap.memory_lock=true
@@ -43,6 +45,7 @@ services:
 
   zookeeper:
       container_name: zookeeper
+      restart: always
       build:
         context: .
         dockerfile: servers/zookeeper/zookeeper.dockerfile
@@ -95,6 +98,7 @@ services:
         context: .
         dockerfile: servers/telegraf/telegraf.dockerfile
       container_name: telegraf
+      restart: always
       depends_on:
         - influxdb
 
@@ -103,6 +107,7 @@ services:
         context: .
         dockerfile: servers/kafka/kafka.dockerfile
       container_name: kafka
+      restart: always
       ports:
         - "9092"
       environment:
@@ -131,6 +136,7 @@ services:
         - zookeeper
 
   collaboration-transformer-app:
+      restart: always
       build:
         context: .
         dockerfile: collaboration-transformer-app/app.dockerfile
@@ -146,6 +152,7 @@ services:
         - redis
 
   collaboration-ui-app:
+      restart: always
       build:
         context: .
         dockerfile: collaboration-ui-app/app.dockerfile
@@ -160,6 +167,7 @@ services:
         - collaboration-service-app
 
   notification-command-consumer-app:
+      restart: always
       build:
         context: .
         dockerfile: notification-command-consumer-app/app.dockerfile
@@ -174,6 +182,7 @@ services:
         - kafka
 
   notification-indexer-app:
+      restart: always
       build:
         context: .
         dockerfile: notification-indexer-app/app.dockerfile
@@ -190,6 +199,7 @@ services:
         - influxdb
 
   notification-service-app:
+      restart: always
       build:
         context: .
         dockerfile: notification-service-app/app.dockerfile
@@ -205,6 +215,7 @@ services:
         - influxdb
 
   notification-ui-app:
+      restart: always
       build:
         context: .
         dockerfile: notification-ui-app/app.dockerfile
@@ -220,6 +231,7 @@ services:
         - influxdb
 
   task-command-consumer-app:
+      restart: always
       build:
         context: .
         dockerfile: task-command-consumer-app/app.dockerfile
@@ -235,6 +247,7 @@ services:
         - influxdb
 
   task-indexer-app:
+      restart: always
       build:
         context: .
         dockerfile: task-indexer-app/app.dockerfile
@@ -251,6 +264,7 @@ services:
         - influxdb
 
   task-service-app:
+      restart: always
       build:
         context: .
         dockerfile: task-service-app/app.dockerfile
@@ -266,6 +280,7 @@ services:
         - influxdb
 
   task-ui-app:
+      restart: always
       build:
         context: .
         dockerfile: task-ui-app/app.dockerfile
@@ -281,6 +296,7 @@ services:
         - influxdb
 
   collaboration-service-app:
+      restart: always
       build:
         context: .
         dockerfile: collaboration-service-app/app.dockerfile

@@ -50,15 +50,41 @@ The following metrics need to measured:
 ### Spring Boot applications
 - jvm.memory.used (bytes)
 - jvm.memory.max (bytes)
-- process.cpu.usage (0..1)
-
+- process.cpu.usage (min, max and mean)
+- system.load.average.1m (a load of 1.25 means that a system with one
+CPU is overloaded by 25%)
+- system.cpu.count (the number of CPUs on the system)
 
 ### Liferay
+TBD
 
 ### Kafka
+TBD
 
 ### Zookeeper
+TBD
 
 ### Elasticsearch
-
+- elasticsearch_os.cpu_percent
+- elasticsearch_os.mem_used_percent
+- elasticsearch_jvm.uptime_in_millis
+- elasticsearch_indices.docs_count
+#### Usage
+- elasticsearch_jvm.mem_heap_used_percent
+- elasticsearch_process.cpu_percent
+- elasticsearch_fs.least_usage_estimate_used_disk_percent
 ### Redis
+- redis.uptime (seconds)
+- redis.used_memory (bytes)
+- redis_keyspace.keys
+#### Clients and connections
+- redis.clients
+- redis.blocked_clients
+- redis.rejected_connections
+#### Hits and misses
+- redis.keyspace_hitrate
+- redis.keyspace_misses
+- redis.keyspace_hits
+#### Memory usage
+- redis.used_memory
+- redis.total_system_memory

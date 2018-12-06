@@ -5,3 +5,4 @@ COPY servers/grafana/dashboards/dashboards.yaml /etc/grafana/provisioning/dashbo
 COPY servers/grafana/datasources/influxdb.yaml /etc/grafana/provisioning/datasources
 RUN  mkdir /var/lib/grafana/dashboards
 COPY servers/grafana/dashboards/streaming-dashboard.json /var/lib/grafana/dashboards
+COPY servers/grafana/dashboards/aggregated-metrics-board.json /var/lib/grafana/dashboards
